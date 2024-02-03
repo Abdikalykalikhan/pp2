@@ -75,8 +75,14 @@ movies = [
 "category": "Romance"
 }
 ]
-n = input()
-def func():
-    print(float(movies[8]["imdb"]) > 5.5)
 
-func()
+my_category = input("")
+mylist = []
+def mymovie():
+    for i in movies:
+        if i["category"] == my_category:
+            mylist.append(i["imdb"])
+        re += float(mylist[i])
+    print(re/i)
+
+mymovie()                

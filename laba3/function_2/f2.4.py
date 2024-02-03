@@ -75,8 +75,15 @@ movies = [
 "category": "Romance"
 }
 ]
-n = input()
-def func():
-    print(float(movies[8]["imdb"]) > 5.5)
 
-func()
+name_movie = input("")
+arr = []
+arr = name_movie.split()
+print(arr)
+def mymovie():
+    for i in movies:
+        for j in arr:
+            if i["name"] == arr[j]:
+                print(i["imdb"])
+                pass
+print(mymovie())
