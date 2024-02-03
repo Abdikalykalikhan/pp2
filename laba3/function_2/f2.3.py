@@ -75,11 +75,25 @@ movies = [
 "category": "Romance"
 }
 ]
-def above_5_5():
-    my_list = []
-    for i in range(len(movies)):
-        if float(movies[i]["imdb"]) > 5.5:
-            my_list.append(movies[i]["name"])
-    return my_list
 
-print(above_5_5())        
+mycategory = input("")
+mylist = []
+def category():
+    for i in movies:
+        if i["category"] == mycategory:
+            mylist.append(i["name"])
+    return mylist
+
+print(category())        
+
+
+'''
+c = input("")
+def cat(c): 
+    for i in movies: 
+        if i["category"] == c: 
+            print(i["name"]) 
+ 
+ 
+cat(c)
+'''
