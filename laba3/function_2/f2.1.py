@@ -75,8 +75,21 @@ movies = [
 "category": "Romance"
 }
 ]
-n = input()
+'''
 def func():
-    print(float(movies[8]["imdb"]) > 5.5)
+    n = input()
+    print(float(movies[n]["imdb"]) > 5.5)
 
-func()
+func()'''
+def func(m): 
+    x = input("") 
+    for i in m: 
+        if i["name"] == x and i["imdb"] > 5.5: 
+            print(True) 
+            return
+        else:
+            print(False)
+            return
+ 
+ 
+func(movies) 

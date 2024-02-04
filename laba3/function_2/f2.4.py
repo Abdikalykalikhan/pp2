@@ -76,14 +76,13 @@ movies = [
 }
 ]
 
-name_movie = input("")
-arr = []
-arr = name_movie.split()
-print(arr)
-def mymovie():
+def average(movies):
+    score = 0
+    nmov = len(movies)
     for i in movies:
-        for j in arr:
-            if i["name"] == arr[j]:
-                print(i["imdb"])
-                pass
-print(mymovie())
+        score += i["imdb"]
+    if nmov > 0:
+        return score / nmov
+    else:
+        return 0
+print(average(movies))

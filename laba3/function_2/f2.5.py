@@ -76,13 +76,15 @@ movies = [
 }
 ]
 
-my_category = input("")
-mylist = []
-def mymovie():
+def average_category(cname = input()):
+    score = 0
+    nmov = 0
     for i in movies:
-        if i["category"] == my_category:
-            mylist.append(i["imdb"])
-        re += float(mylist[i])
-    print(re/i)
-
-mymovie()                
+        if i["category"] == cname:
+            score = score + i["imdb"]
+            nmov+=1 
+    if nmov > 0:
+        return score / nmov
+    else:
+        return 0
+print(average_category())
