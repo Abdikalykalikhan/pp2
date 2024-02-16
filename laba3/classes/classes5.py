@@ -19,7 +19,7 @@ class Account:
  
 p1 = Account("Alikhan Abdikalyk", balance = 0)
 
-p1.deposit(1000)
+p1.deposit(111)
 p1.withdraw(1000)
 p1.withdraw(100)
 p1.deposit(1000000)

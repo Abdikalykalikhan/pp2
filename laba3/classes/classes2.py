@@ -1,15 +1,15 @@
-import math
 class Shape:
-    def area():
-        return 0
-
-
-
+    def area(self) -> None:
+        self.a = 0
+        
 class Square:
     def __init__(self):
-        self.l = int(input("length: "))
-    def area(self, l):
-        return self.l ** 2
-    
-p1 = Square()
-p1.area()
+        self.length = int(input())
+
+    def area(self):
+        self.a = self.length * self.length
+
+        print(self.a)
+
+p = Square()
+p.area()
