@@ -2,14 +2,14 @@
 # a = [ i**2 for i in range(1, n)]
 # print(a)
 
-n = int(input())
-
 
 def generate(n):
-    for i in range(1, n+1):
-        yield next(a)
-        
-a = ( i**2 for i in range(1, n))
+    for i in range(n+1):
+        yield pow(i, 2)
 
-generate(n)
+n = int(input())        
+at = generate(n)
+
+for j in generate(n):
+    print(next(at))
 
