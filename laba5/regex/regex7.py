@@ -1,11 +1,16 @@
 import re
+ 
+def test(pattern, testinput, testoutput):
+    result = re.sub(pattern, "", testinput)
+    if result == testoutput:
+        print("test is passed!")
+    else:
+        print("test is not passed!")
 
-inpa = input()
+pattern = '[_]'
 
-for i in len(inpa):
-    if inpa[i] == '_':
-        inpa[i+1].upper()
-print(inpa)
-#pattern = r'[_]'
-
-#result = re.sub(pattern, )
+test(pattern, "Salam_PP1", "SalamPP1")
+test(pattern, " Fibo_Itis_Me", " FiboItisMe")
+test(pattern, "It_Super_Code", "ItSuperCode")
+test(pattern, "It_It_It", "ItItIt")
+test(pattern, "Your_Name_Is", "YourNameIs")

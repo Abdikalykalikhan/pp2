@@ -1,11 +1,16 @@
 import re 
 
-inpa = input("")
+def test(pattern, testinput, testoutput):
+    result = re.sub(pattern, ':', testinput)
+    if result == testoutput:
+        print("test is passed!")
+    else:
+        print("test is not passed!")
 
-pattern = r'[,]|[" "]|[.]|[;]'
-result = re.sub(pattern, ':', inpa)
-print(result)
-if result:
-    print("ok")
-else:
-    print("no")
+pattern = '[,]|[" "]|[@]'
+
+test(pattern, "hi salam,privet", "hi:salam:privet")
+test(pattern, " fibo itis me", ":fibo:itis:me")
+test(pattern, "hi salam,privet", "hi:salam:privet")
+test(pattern, ":,,,:", ":::::")
+test(pattern, "hey , My name", "hey:::My:name")
