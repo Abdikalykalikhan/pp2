@@ -2,10 +2,11 @@ import re
 
 def test(pattern, testinput, testoutput):
     result = re.sub(pattern, r'\1_\2', testinput)
+    print(result)
     if result == testoutput:
-        print("test is passed!")
+        print("true")
     else:
-        print("tet is not passed!")
+        print("false")
 
 pattern = r'([a-z])([A-Z])'
 

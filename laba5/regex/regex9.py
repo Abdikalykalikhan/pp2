@@ -1,12 +1,12 @@
 import re
 
-def test(pattern, testData, expectedResult):
-    result = re.sub(pattern, r"\1 \2", testData)
+def test(pattern, inputstring, outputstring):
+    result = re.sub(pattern, r'\1 \2', inputstring)
     print(result)
-    if result == expectedResult:
-        print("test is passed!")
-    else: 
-        print("test is not passed!")
+    if result == outputstring:
+        print("true")
+    else:
+        print("false")
 
 pattern = r'([a-zA-Z])([A-Z])'
 

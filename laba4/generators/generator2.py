@@ -7,5 +7,5 @@ n = int(input())
 a = even(n)
 
 for j in even(n):
-    print(next(a), end =", ")
+    print(next(a), end = ", ")
     
