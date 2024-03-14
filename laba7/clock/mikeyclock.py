@@ -31,32 +31,11 @@ def blitRotate(surf, image, left,right, pos, originPos, angle, rangle):
     surf.blit(rotated_image, rotated_image_rect)
     surf.blit(rotated_left, rotated_left_rect)
     surf.blit(rotated_right, rotated_right_rect)
-    # draw rectangle around the image
-    pygame.draw.rect(surf, (255, 0, 0), (*rotated_left_rect.topleft, *rotated_left.get_size()),2)
-    pygame.draw.rect(surf, (255, 0, 0), (*rotated_image_rect.topleft, *rotated_image.get_size()),2)
     
-try:
-    left = pygame.image.load('leftarm.png')
-    right = pygame.image.load('rightarm.png')
-    image = pygame.image.load('mainclock.png')
+left = pygame.image.load('leftarm.png')
+right = pygame.image.load('rightarm.png')
+image = pygame.image.load('mainclock.png')
     
-except:
-    text = pygame.font.SysFont('Times New Roman', 50).render('image', False, (255, 255, 0))
-    image = pygame.Surface((text.get_width()+1, text.get_height()+1))
-    pygame.draw.rect(image, (0, 0, 255), (1, 1, *text.get_size()))
-
-    text = pygame.font.SysFont('Times New Roman', 50).render('left', False, (255, 255, 0))
-    left = pygame.Surface((text.get_width()+1, text.get_height()+1))
-    pygame.draw.rect(image, (0, 0, 255), (1, 1, *text.get_size()))
-
-    text = pygame.font.SysFont('Times New Roman', 50).render('right', False, (255, 255, 0))
-    right = pygame.Surface((text.get_width()+1, text.get_height()+1))
-    pygame.draw.rect(image, (0, 0, 255), (1, 1, *text.get_size()))
-
-    right.blit(text, (1, 1))
-    image.blit(text, (1, 1))
-    left.blit(text, (1, 1))
-
 w, h = image.get_size()
 rangle = 300
 angle = 360
@@ -67,18 +46,13 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-    pos = (screen.get_width()/2, screen.get_height()/2)
-    
+    pos = (screen.get_width()/2, screen.get_height()/2)  
     screen.fill(0)
     blitRotate(screen, image, left, right, pos, (w/2, h/2), angle, rangle)
     
-    angle -= 0.37
-    rangle -= 0.037
-    pygame.draw.line(screen, (0, 255, 0), (pos[0]-20, pos[1]), (pos[0]+20, pos[1]), 3)
-    pygame.draw.line(screen, (0, 255, 0), (pos[0], pos[1]-20), (pos[0], pos[1]+20), 3)
-    pygame.draw.circle(screen, (0, 255, 0), pos, 7, 0)
-
+    angle -= 0.6
+    rangle -= 1/60
     pygame.display.flip()
-    
+    clock.tick(60)
 pygame.quit()
 exit()
