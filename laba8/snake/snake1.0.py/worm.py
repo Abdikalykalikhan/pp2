@@ -22,24 +22,7 @@ class Worm(GameObject):
         self.points.append(Point(pos.X, pos.Y))
 
     def decrease(self, pos):
-        # Проверка, является ли позиция pos позицией головы змеи
-        if pos == self.points[1]:
-            # Удаление последнего сегмента змеи
-            self.points.pop()
-        
-        # Проверка на столкновение змеи с другими спрайтами
-        if pygame.sprite.spritecollideany(self, self.other_sprites_group):
-            # Если произошло столкновение, выполняется следующий код:
-            # - Остановка игры на 0.5 секунды
-            time.sleep(0.5)
-            # - Обновление экрана
-            pygame.display.update()
-            # - Завершение работы Pygame
-            pygame.quit()
-            # - Завершение программы
-            sys.exit()
-    def set_other_sprites_group(self, other_sprites_group):
-        self.other_sprites_group = other_sprites_group
+        self.points.pop(Point(pos.X, pos.Y))
 
     def process_input(self,  events):
         for event in events:

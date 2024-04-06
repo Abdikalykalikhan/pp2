@@ -39,14 +39,14 @@ while not done:
 
         worm.process_input(filtered_events)
         worm.move()
-
+        poswall = wall.cannot_eat(worm.points[0])
+        if(poswall != None):
+            worm.decrease(poswall)
         posfood = food.can_eat(worm.points[0])
         if(posfood != None):
             worm.increase(posfood)
 
-        poswall = wall.cannot_eat(worm.points[0])
-        if(poswall != None):
-            worm.decrease(poswall)
+        
         
         create_background(screen, 400, 300)
         

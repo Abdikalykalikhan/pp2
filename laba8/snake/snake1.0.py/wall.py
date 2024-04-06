@@ -24,5 +24,5 @@ class Wall(GameObject):
         result = None
         for point in self.points:
             if point.X == head_location.X and point.Y == head_location.Y:
-                break
+                return result
         return result
