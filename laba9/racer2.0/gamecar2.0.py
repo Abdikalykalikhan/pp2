@@ -29,6 +29,9 @@ DISPLAYSURF = pygame.display.set_mode((400,600))
 DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
  
+
+
+# Create a class for the enemy
 class Enemy(pygame.sprite.Sprite):
       def __init__(self):
         super().__init__() 
@@ -43,8 +46,8 @@ class Enemy(pygame.sprite.Sprite):
             SCORE += 1
             self.rect.top = 0
             self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
- 
- 
+
+# Create a class for the player
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
@@ -54,10 +57,10 @@ class Player(pygame.sprite.Sprite):
         
     def move(self):
         pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_UP]:
-            self.rect.move_ip(0, -5)
-        if pressed_keys[K_DOWN]:
-            self.rect.move_ip(0,5)
+        #if pressed_keys[K_UP]:
+            #self.rect.move_ip(0, -5)
+        #if pressed_keys[K_DOWN]:
+            #self.rect.move_ip(0,5)
          
         if self.rect.left > 0:
             if pressed_keys[K_LEFT]:
@@ -66,31 +69,28 @@ class Player(pygame.sprite.Sprite):
             if pressed_keys[K_RIGHT]:
                 self.rect.move_ip(5, 0)
 
-
 # Create a class for the coin
 class coin(pygame.sprite.Sprite) :
-
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load("coin.png")
         self.rect = self.image.get_rect()
-        self.rect.center = (random.randint(40,560), 0)
+        self.rect.center = (random.randint(40,370), 0)
 
     def move(self):
-        self.rect.move_ip(1, 10) 
-        if (self.rect.bottom > 600) :
-            self.rect.top = 0
-            self.rect.center = (random.randint(30, 370), 0)
+        self.rect.move_ip(0, 10) 
+        if self.rect.top > SCREEN_HEIGHT:  # Если монета вышла за пределы экрана сверху
+            self.rect.bottom = 0  # Переместите монету вверх экрана
+            self.rect.centerx = random.randint(40, 370)  # Сгенерировать новую случайну
     
     def draw(self, surface):
         surface.blit(self.image, self.rect) 
+
 
 #Setting up Sprites        
 P1 = Player()
 E1 = Enemy()
 C1 = coin()
- 
-
 
 #Creating Sprites Groups
 enemies = pygame.sprite.Group()
@@ -105,12 +105,13 @@ all_sprites.add(C1)
 #Adding a new User event 
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
-z=0 
 
+
+#Infinite loop
 while True:  
     for event in pygame.event.get():
-        #if event.type == INC_SPEED:
-            #SPEED += 0.5     
+        if event.type == INC_SPEED:
+            SPEED += 0.5     
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
