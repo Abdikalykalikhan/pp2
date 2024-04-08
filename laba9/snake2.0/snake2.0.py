@@ -12,6 +12,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
+YELLOW = (255, 255, 51)
 
 # Snake class
 class Snake:
@@ -67,6 +68,36 @@ class Food:
             self.position = [random.randrange(0, GRID_WIDTH), random.randrange(0, GRID_HEIGHT)]
             self.is_food_on_screen = True
         return self.position
+    
+# Weight food class
+class Weight_Food:
+    def __init__(self):
+        self.position = [random.randrange(0, GRID_WIDTH), random.randrange(0, GRID_HEIGHT)]
+        self.is_food_on_screen = True
+
+    def spawn_food(self):
+        if not self.is_food_on_screen:
+            self.position = [random.randrange(0, GRID_WIDTH), random.randrange(0, GRID_HEIGHT)]
+            self.is_food_on_screen = True
+        return self.position
+
+# Timed Food class
+class TimedFood:
+    def __init__(self, delay):
+        self.position = None
+        self.is_food_on_screen = False
+        self.delay = delay
+        self.timer = 0
+
+    def update(self):
+        self.timer += 1
+        if self.timer >= self.delay:
+            self.position = [random.randrange(0, GRID_WIDTH), random.randrange(0, GRID_HEIGHT)]
+            self.is_food_on_screen = True
+            self.timer = 0
+
+    def spawn_food(self):
+        return self.position
 
 # Main function
 def main():
@@ -77,6 +108,9 @@ def main():
 
     snake = Snake()
     food = Food()
+    WeightFood = Weight_Food()
+    #задержка на 8 кадров
+    timed_food = TimedFood(8)
     apples_eaten = 0
 
     while True:
@@ -107,6 +141,16 @@ def main():
             food.is_food_on_screen = False
             apples_eaten += 1
 
+        if snake.head == WeightFood.position:
+            snake.grow()
+            WeightFood.is_food_on_screen = False
+            apples_eaten += 2
+        
+        if snake.head == timed_food.position:
+            snake.grow()
+            timed_food.is_food_on_screen = False
+            apples_eaten += 5
+
         screen.fill(BLACK)
 
         for segment in snake.body:
@@ -114,6 +158,14 @@ def main():
         
         food_position = food.spawn_food()
         pygame.draw.rect(screen, RED, (food_position[0] * GRID_SIZE, food_position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+
+        WeightFood_position = WeightFood.spawn_food()
+        pygame.draw.rect(screen, YELLOW, (WeightFood_position[0] * GRID_SIZE, WeightFood_position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+        
+        timed_food.update()
+        if timed_food.is_food_on_screen:
+            timed_food_position = timed_food.spawn_food()
+            pygame.draw.rect(screen, (50, 50, 50), (timed_food_position[0] * GRID_SIZE, timed_food_position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE))
 
         # Display the number of apples eaten
         font = pygame.font.Font(None, 36)
