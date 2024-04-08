@@ -1,103 +1,130 @@
 import pygame
+from math import sqrt
 
-queue = []
+def main():
 
-def getRectangle(x1, y1, x2, y2):
-    x = min(x1, x2)
-    y = min(y1, y2)
-    w = abs(x1-x2)
-    h = abs(y1-y2)
-    return (x, y, w, h)
+    pygame.init()
+    screen = pygame.display.set_mode((640, 480))
+    baseLayer = pygame.Surface((640, 480))
+    clock = pygame.time.Clock()
 
+    #Starting and ending positions of pen
+    prevX = 0
+    prevY = 0
 
-def step(screen, x, y, origin_color, fill_color):
-    if x < 0 or y < 0: return False
-    if x > 400 or y > 300: return False
-    if screen.get_at((x, y)) != origin_color: return False
-    queue.append((x, y))
-    screen.set_at((x, y), fill_color)
+    #Starting and ending positions of rectangle while drawing:
+    prevX1 = -1
+    prevY1 = -1
+    currentX1 = -1
+    currentY1 = -1
 
+    color = (255,255,255)
+    screen.fill((0, 0, 0))
 
-pygame.init()
-screen = pygame.display.set_mode((650, 650))
-another_layer = pygame.Surface((650, 650))
-
-done = False
-clock = pygame.time.Clock()
-
-origin_color = (0, 0, 0)
-fill_color = (255, 0, 0)
-
-tool = 0
-
-tools_count = 3
-
-x1 = 10
-y1 = 10
-x2 = 10
-y2 = 10
-
-w = 100
-h = 100
-color = (0, 128, 255)
-isMouseDown = False
-screen.fill((0, 0, 0))
-
-while not done:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        done = True
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1: # left click
-                        if tool == 0:
-                            x1 = event.pos[0]
-                            y1 = event.pos[1]
-                            x2 = x1
-                            y2 = y1
-                        elif tool == 1:
-                            x1 = event.pos[0]
-                            y1 = event.pos[1]
-                        elif tool == 2:
-                            x1 = event.pos[0]
-                            y1 = event.pos[1]
-                            origin_color = screen.get_at((x1, y1))
-                            queue.append((x1, y1))
-                            screen.set_at((x1, y1), fill_color)
-
-                            while len(queue) > 0:
-                                cur_pos = queue[0]
-                                queue.pop(0)
-                                step(screen, cur_pos[0] + 1, cur_pos[1], origin_color,  fill_color)
-                                step(screen, cur_pos[0] - 1, cur_pos[1], origin_color, fill_color)
-                                step(screen, cur_pos[0], cur_pos[1] + 1, origin_color, fill_color)
-                                step(screen, cur_pos[0], cur_pos[1] - 1, origin_color, fill_color)
-                                
-                    elif event.button == 3: # right click
-                        tool = (tool + 1) % tools_count
+    isMouseDown = False
+    
+    while True:
+        pressed = pygame.key.get_pressed()
+        currentX = prevX
+        currentY = prevY
+        for event in pygame.event.get(): 
+            #exit
+            if event.type == pygame.QUIT: 
+                return
+            
+            #right
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1: 
                     isMouseDown = True
 
-
-                if event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == 1:
-                        another_layer.blit(screen, (0, 0))
+            #left
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1: 
                     isMouseDown = False
-                    
-                        
-                if event.type == pygame.MOUSEMOTION:
-                        if isMouseDown:
-                            if tool == 0:
-                                x1 = x2
-                                y1 = y2
-                                x2 = event.pos[0]
-                                y2 = event.pos[1]
-                                pygame.draw.line(screen, color, (x1, y1), (x2, y2))
-                            elif tool == 1:
-                                screen.blit(another_layer, (0, 0))
-                                x2 = event.pos[0]
-                                y2 = event.pos[1]
-                                pygame.draw.rect(screen, color, pygame.Rect(getRectangle(x1, y1, x2, y2)), 1)
-                        
-        
+
+            #pen        
+            if event.type == pygame.MOUSEMOTION:
+                currentX =  event.pos[0]
+                currentY =  event.pos[1]
+            
+            #rectangle
+            if event.type == pygame.MOUSEBUTTONDOWN: 
+                if event.button == 1:
+                    isMouseDown = True
+                    currentX1 =  event.pos[0]
+                    currentY1 =  event.pos[1]
+                    prevX1 =  event.pos[0]
+                    prevY1 =  event.pos[1]
+
+            # not drawn
+            if event.type == pygame.MOUSEBUTTONUP:
+                isMouseDown = False
+                baseLayer.blit(screen, (0, 0))
+
+            # draw
+            if event.type == pygame.MOUSEMOTION:
+                if isMouseDown:
+                    currentX1 =  event.pos[0]
+                    currentY1 =  event.pos[1]
+            #color
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    color = (255, 0, 0)
+                elif event.key == pygame.K_g:
+                    color = (0, 255, 0)
+                elif event.key == pygame.K_b:
+                    color = (0, 0, 255)
+                elif event.key == pygame.K_w:
+                    color = (255,255,255)
+
+                # Отображение текущего инструмента
+                if event.key == pygame.K_1:
+                    pygame.display.set_caption("Paint - Pencil")
+                elif event.key == pygame.K_2:
+                    pygame.display.set_caption("Paint - Rectangle")
+                elif event.key == pygame.K_3:
+                    pygame.display.set_caption("Paint - Eraser")            
+
+        #pen            
+        if isMouseDown: 
+            pygame.draw.line(screen, color, (prevX, prevY), (currentX, currentY))
+
+        #rectangle
+        if pressed[pygame.K_1]: 
+            if isMouseDown and prevX1 != -1 and prevY1 != -1 and currentX1 != -1 and currentY1 != -1:
+                screen.blit(baseLayer, (0, 0))
+                r = calculateRect(prevX1, prevY1, currentX1, currentY1)
+                pygame.draw.rect(screen, color,pygame.Rect(r), 1)
+
+        #circle
+        if pressed[pygame.K_2]: 
+            if isMouseDown and prevX1 != -1 and prevY1 != -1 and currentX1 != -1 and currentY1 != -1:
+                screen.blit(baseLayer, (0, 0))
+                c = centerCirc(prevX1, prevY1, currentX1, currentY1)
+                ra = radiusCirc(prevX1, prevY1, currentX1, currentY1)
+                pygame.draw.circle(screen, color, c, ra, 1)
+
+        #eraser        
+        if pressed[pygame.K_3]: 
+            if isMouseDown:
+                pygame.draw.line(screen, (0,0,0), (prevX, prevY), (currentX, currentY),30)
+
+        prevX = currentX
+        prevY = currentY
+
         pygame.display.flip()
         clock.tick(60)
+
+#coordinates rect
+def calculateRect(x1, y1, x2, y2):
+    return pygame.Rect(min(x1, x2), min(y1, y2), abs(x1 - x2), abs(y1 - y2))
+
+#center circle
+def centerCirc(x1, y1, x2, y2):
+    return abs(x1 - x2) / 2 + min(x1, x2), abs(y1 - y2) / 2 + min(y1, y2)
+
+#radius
+def radiusCirc(x1, y1, x2, y2):
+    return sqrt((((abs(x1 - x2) / 2) ** 2) + (abs(y1 - y2) / 2) ** 2))
+
+main()
