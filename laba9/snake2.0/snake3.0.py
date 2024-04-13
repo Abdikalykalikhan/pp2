@@ -111,6 +111,11 @@ def display_centered_text_score(screen, text, font_size, color):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 1.5))
     screen.blit(text_surface, text_rect)
+def display_centered_text_score_coins(screen, text, font_size, color):
+    font = pygame.font.Font(None, font_size)
+    text_surface = font.render(text, True, color)
+    text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 1.2))
+    screen.blit(text_surface, text_rect)
 
 def main():
  
@@ -152,7 +157,7 @@ def main():
             screen.fill(RED)  
             display_centered_text_gameover(screen, "Game Over", 36, WHITE)
             display_centered_text_score(screen, f"Points: {points}", 24, WHITE) 
-            display_centered_text_score(screen, f"Apples eaten: {apples_eaten}", 24, WHITE)
+            display_centered_text_score_coins(screen, f"Apples eaten: {apples_eaten}", 12, WHITE)
             pygame.display.update()
             pygame.time.delay(2000)  # Задержка на 2 секунды перед завершением игры
             pygame.quit()
