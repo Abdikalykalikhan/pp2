@@ -105,7 +105,7 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption('Snake Game')
     clock = pygame.time.Clock()
-
+    FPS = 2
     snake = Snake()
     food = Food()
     WeightFood = Weight_Food()
@@ -115,6 +115,8 @@ def main():
 
     while True:
         for event in pygame.event.get():
+            
+            FPS += 0.1
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()

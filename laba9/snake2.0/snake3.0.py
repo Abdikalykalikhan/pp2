@@ -137,6 +137,7 @@ def main():
         # Обработка событий
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                FPS +=0.5
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
